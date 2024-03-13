@@ -1,0 +1,219 @@
+
+#headings {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 1px 0;
+}
+
+
+#countrow {
+    line-height: 10px;
+    color: #18b616;
+}
+
+#hr {
+    display: block;
+    flex: 1;
+    margin-left:10px;
+    margin-right:-8px;
+    height: 5px;
+    background: #18b616;
+}
+
+
+#label-column {
+    text-transform: uppercase;
+    color: #18b616;
+    font-size: 8px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+* {
+	padding: 0px;
+	margin: 0px;
+	box-sizing: border-box;
+}
+body {
+	height: 50vh;
+	align-items: center;
+	font-family: 'Poppins', sans-serif;
+}
+.tree {
+	width: 100%;
+	height: auto;
+	text-align: center;
+}
+.tree ul {
+	padding-top: 10px;
+	position: relative;
+	transition: .5s;
+}
+.tree li {
+	display: inline-table;
+	text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 5px;
+	padding-top: 5px;
+
+	transition: .5s;
+}
+.tree li::before, .tree li::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 50%;
+	border-top: 1px solid #ccc;
+	width: 51%;
+	height: 5px;
+}
+.tree li::after {
+	right: auto;
+	left: 50%;
+	border-left: 1px solid #ccc;
+}
+.tree li:only-child::after, .tree li:only-child::before {
+	display: none;
+}
+.tree li:only-child {
+	padding-top: 0;
+}
+.tree li:first-child::before, .tree li:last-child::after {
+	border: 0 none;
+}
+.tree li:last-child::before {
+	border-right: 1px solid #ccc;
+	border-radius: 0 5px 0 0;
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after {
+	border-radius: 5px 0 0 0;
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+}
+.tree ul ul::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 50%;
+	border-left: 1px solid #ccc;
+	width: 0;
+	height: 10px;
+}
+.tree li a {
+	border: 1px solid #ccc;
+	padding: 2px;
+	display: inline-grid;
+	border-radius: 5px;
+	text-decoration-line: none;
+	border-radius: 5px;
+	transition: .5s;
+}
+.tree li a img {
+	width: 40px;
+	height: 40px;
+	margin-bottom: 5px !important;
+	border-radius: 10px;
+	margin: auto; 
+
+}
+.tree li a span {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	color: #666;
+	padding: 2px;
+	font-size: 10px;
+
+	letter-spacing: 1px;
+}
+
+.tree li a:hover, .tree li a:hover i, .tree li a:hover span, .tree li a:hover+ul li a {
+	background: #c8e4f8;
+	color: #000;
+	border: 1px solid #94a0b4;
+}
+.tree li a:hover+ul li::after, .tree li a:hover+ul li::before, .tree li a:hover+ul::before, .tree li a:hover+ul ul::before {
+	border-color: #94a0b4;
+}
+
+.genealogy-scroll::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+}
+.genealogy-scroll::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #e4e4e4;
+}
+.genealogy-scroll::-webkit-scrollbar-thumb {
+    background: #212121;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+.genealogy-scroll::-webkit-scrollbar-thumb:hover {
+    background: #d5b14c;
+    transition: 0.5s;
+}
+
+
+#card1 {
+    overflow-y: scroll;
+    max-width: 1980px;
+}
+.genealogy-body{
+    white-space: nowrap;
+    padding: 5px;
+    min-height: 200px;
+}
+.genealogy-body .vertical-ul {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+
+}
+/* /////////// */
+
+.tree-view-container {
+    cursor: grab;
+}
+
+.tree-view-container:active {
+    cursor: grabbing;
+}
+.tree-view-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 540px;
+}
+
+@media (max-width: 1369px) {
+    .tree-view-container {
+        overflow: auto; /* Allow scrolling on tablets and smaller screens */
+    }
+}
+/* Default styling for the tree genealogy container */
+
+
+/* Media query for mobile devices with a maximum width of 767px */
+@media (max-width: 767px) {
+    /* Apply 80% zoom on mobile devices */
+    .tree-view-container {
+        zoom: 60%;
+        transform-origin: top left; /* Adjust the origin point as needed */
+    }
+}
+@media (max-width: 1367px) {
+    /* Apply 80% zoom on mobile devices */
+    .tree-view-container {
+        zoom: 80%;
+        transform-origin: top left; /* Adjust the origin point as needed */
+    }
+}
+
+
+/* ///////////// */
+
+
+

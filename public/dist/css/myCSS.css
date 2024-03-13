@@ -1,0 +1,298 @@
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+}
+
+td.address {
+    max-width: 150px;
+    white-space: nowrap;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td.email {
+    white-space: nowrap;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* Default styles */
+.history-content {
+    white-space: nowrap;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Media query for screens with a maximum width of 768px (adjust as needed) */
+@media (max-width: 768px) {
+    .history-content {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: initial;
+        max-width: 320px;
+    }
+}
+
+td.date {
+    white-space: pre;
+}
+.rotate90 {
+    transform: rotate(-90deg);
+}
+.rotate180 {
+    transform: rotate(90deg);
+}
+/*ZOOM MAPY*/
+.zoom {
+    transition: transform .08s;
+
+}
+
+.zoom:hover {
+    -ms-transform: scale(2.0);
+    /* IE 9 */
+    -webkit-transform: scale(2.0);
+    /* Safari 3-8 */
+    transform: scale(2.0);
+    z-index: 1001;
+    position: relative;
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+
+#event-list-container {
+    height: 80vh;
+    overflow-y: auto;
+}
+@media (max-width: 1069px) {
+    #event-list-container {
+        height: 45vh;
+         overflow-y: auto;
+    }
+}
+@media (max-width: 768px) {
+    #event-list-container {
+        height: 30vh;
+         overflow-y: auto;
+    }
+}
+
+.ListOfIndexStructureScroll
+{max-height: 300px; overflow-y:auto;}
+/* Media query for screens with a maximum width of, for example, 768px (typical for mobile) */
+
+
+/* Default styles for all screens */
+iframe {
+    width: 90%;
+    height: 840px;
+  }
+
+  /* Media query for mobile screens */
+  @media (max-width: 575px) {
+    iframe {
+      height: 612px; /* Adjust the height for mobile screens */
+    }
+  }
+
+  /* Media query for 13-inch laptop screens */
+  @media (min-width: 576px) and (max-width: 1366px) {
+    iframe {
+      height: 738px; /* Adjust the height for 13-inch laptop screens */
+    }
+  }
+
+  /* Media query for 24-inch PC screens */
+  @media (min-width: 1367) {
+    iframe {
+      height: 820px; /* Adjust the height for 24-inch PC screens */
+    }
+  }
+
+  .table-view-container {
+    cursor: grab;
+}
+
+.table-view-container:active {
+    cursor: grabbing;
+
+
+}
+
+/* public/css/styles.css */
+
+.nav-item.active {
+    background-color: #007bff; /* Màu nền tùy chỉnh cho mục được chọn */
+}
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Apply the animation to the card element */
+  .card {
+    animation: fadeIn 0.5s ease-out; /* Adjust the duration and easing as needed */
+  }
+
+  /* Optionally, add a delay if needed */
+  .card.delayed {
+    animation-delay: 0.5s; /* Adjust the delay as needed */
+  }
+
+
+  /* Optionally, add a delay if needed */
+
+  @keyframes colorChange {
+    0% { color: black; }
+    25% { color: white; }
+    50% { color: black; }
+    75% { color: white; }
+    100% { color: black; }
+}
+
+.color-changing {
+    animation: colorChange 1s ease-in-out; /* Điều chỉnh thời gian animation tùy ý */
+}
+#backToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color:transparent !important;
+    color: #fff;
+    border: none;
+    border-radius: 45px;
+    cursor: pointer;
+}
+
+
+.ellipsis-span {
+    display: inline-block;
+    max-width: 380px; /* Đặt giới hạn độ rộng của span */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+input,
+textarea {
+  border: 1px solid #eeeeee;
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+  padding: 10px;
+}
+
+input[type="button"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.input-group {
+  clear: both;
+  margin: 15px 0;
+  position: relative;
+}
+
+.input-group input[type='button'] {
+  background-color: #eeeeee;
+  min-width: 38px;
+  width: auto;
+  transition: all 300ms ease;
+}
+
+.input-group .button-minus,
+.input-group .button-plus {
+  font-weight: bold;
+  height: 38px;
+  padding: 0;
+  width: 38px;
+  position: relative;
+}
+
+.input-group .quantity-field {
+  position: relative;
+  height: 38px;
+  left: -6px;
+  text-align: center;
+  width: 62px;
+  display: inline-block;
+  font-size: 13px;
+  margin: 0 0 5px;
+  resize: vertical;
+}
+
+.button-plus {
+  left: -13px;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+}
