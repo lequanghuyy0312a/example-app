@@ -8,98 +8,77 @@
     <div class="container-fluid">
         <div class="row ">
             <div class="col-sm-6">
-                <h1 class="m-0 text-fatk">Quy trình công đoạn</h1>
+                <h1 class="m-0 text-fatk">{{__('msg.processProduction')}}</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
 <section class="content my-2">
     <div class="card ">
-        <div class=" col-12 mt-2">
+        <div class=" col-12 mt-2 px-0">
             <h3 class="text-center">
                 <b>
+                    <input hidden name="hiddenProductID" value="{{ collect($getDropListProducts)->pluck('id')->first() }}">
+
+                    {{ collect($getDropListProducts)->pluck('phase')->first() }} -
                     {{ collect($getDropListProducts)->pluck('code')->first() }} -
                     {{ collect($getDropListProducts)->pluck('name')->first() }}
+                    <td class="p-0">
+                        <div class="btn btn-group float-right p-0">
+                            <a class="btn text-danger btn-default" type="submit" href="/bom/{{ collect($getDropListProducts)->pluck('id')->first() }}/remove" onclick="return confirm('Are you sure you want to delete?')">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                            <a class="btn text-success btn-default ml-1 addBtn-trigger btn-add-bom" data-product-id="{{ collect($getDropListProducts)->pluck('id')->first() }}">
+                                <i class="fas fa-circle-plus"></i>
+                            </a>
+                        </div>
+                    </td>
                 </b>
             </h3>
         </div>
 
         <div class="card">
             <div class="card-header btn bg-dark pb-0" data-card-widget="collapse">
-                <h3 class="card-title text-white ">1. Danh sách linh kiện cấu thành và quy trình sản xuất</h3>
+                <h3 class="card-title text-white ">1. {{__('msg.materialsAndProductionProcess')}}</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool text-white" data-card-widget="collapse">
                         <i class="fas fa-minus"></i> </button>
                 </div>
             </div>
+            @if(session()->has('success'))
+            <div class="alert alert-success" id="success-alert">
+                {{ session('success') }}
+            </div>
+            @elseif($errors->has('error'))
+            <div class="alert alert-danger" id="danger-alert">
+                {{ $errors->first('error') }}
+            </div>
+            @endif
             <div class="card-body m-0 p-0 mt-2">
-                <div class="row p-0 m-0 px-2">
-                    <div class="p-0 m-0 row  col-12 text-right">
+                <div class="row p-0 m-0 px-2 "  style="max-height: 500px; overflow-y: auto;">
+                    <div class="p-0 m-0 row  col-12 " style="position: sticky; top:0px; background-color: #fff; z-index: 1;">
                         <a id="toggleLink" href="#" class="btn btn-outline-secondary ">
-                            <i id="iconA" class="fa-solid  fa-list" style="display: none;"></i>
                             <i id="iconB" class="fa-solid  fa-folder-tree"></i>
+                            <i id="iconA" class="fa-solid  fa-list" style="display: none;"></i>
                         </a>
+                        <a class="btn ml-2 btn-outline-success btn-copy-bom" data-product-id="{{ collect($getDropListProducts)->pluck('id')->first() }}">
+                            <i class="fa-solid fa-copyright"></i>
+                        </a>
+                        <i class="m-0 ml-3 text-muted"> <h4>{{$countBomData }} rows</h4></i>
                     </div>
-                    <div class="row col-12 p-0 m-0  col-12 divTreeBoM " style="display: none;">
-                        <table class="table table-bordered">
-                            <tbody>
-                                <?php $numList = 0; ?>
-                                @foreach ($getBoMs as $bom)
-                                @if ($bom->product_code == collect($getDropListProducts)->pluck('code')->first()
-                                && $bom->product_phase == collect($getDropListProducts)->pluck('phase')->first()
-                                && $bom->product_costPrice == collect($getDropListProducts)->pluck('costPrice')->first())
-                                <div class="m-0 p-0 col-12">
-                                    <table class="table divTreeBoM" style="display: none;">
-                                        <tbody>
-                                            <tr data-widget="expandable-table" aria-expanded="true" class="child-row">
-                                                <td class=" border-right-0 border-top-0 p-0 pt-2 pr-2 " style="background-color: #DDDDDD;">
-                                                    <div class=" row m-0 p-0">
-                                                        <div class="pl-2 col-12">
-                                                            <span> {{ ++$numList }}. </span>
-                                                            <span class="ml-2"> <b> {{ $bom->material_phase }}</b> </span>
-                                                            @if (in_array($bom->material_code, array_column($getBoMs, 'product_code'))
-                                                            && in_array($bom->material_phase, array_column($getBoMs, 'product_phase'))
-                                                            && in_array($bom->material_costPrice, array_column($getBoMs, 'product_costPrice')))
-                                                            <span class="">
-                                                                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
-                                                                {{ $bom->material_code }} - {{ $bom->material_name }}
-                                                            </span>
-                                                            @else
-                                                            <span class="ml-4"> {{ $bom->material_code }} - {{ $bom->material_name }} </span>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="expandable-body">
-                                                <td class="border-right-0 p-0">
-                                                    <div class="p-0 m-0 px-0  border-right-0 pl-5">
-                                                        @include('partials.child-bom-process-tree', [
-                                                        'materialCode_Tree' => $bom->material_code,
-                                                        'materialPhase_Tree' => $bom->material_phase,
-                                                        'materialCostPrice_Tree' => $bom->material_costPrice,
-                                                        'getBoMs' => $getBoMs])
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                @endif
-                                @endforeach
-                        </table>
-                    </div>
-                    <div class=" row col-12 p-0  my-0 ml-2 pr-3 mt-2" id="divListBoM">
+                    <input hidden name="hiddenProductID" value="{{ collect($getDropListProducts)->pluck('id')->first() }}">
+
+                    <!-- LIST -->
+                    <div class="col-12 px-0 mt-2" id="divListBoM" style="display: none;">
                         <table id="tableListBoM" class="table table-bordered">
-                            <thead>
-                                <tr class=" text-center">
-                                    <th style="width: 1%;"> Kỳ </th>
-                                    <th style="width: 20%;"> Mã LK / SP </th>
-                                    <th style="width: 74%;"> Tên LK / SP </th>
-                                    <th style="width: 1%;"> ĐVT </th>
-                                    <th style="width: 1%;"> Số lượng </th>
-                                    <th style="width: 1%;"> tỷ lệ </th>
-                                    <th style="width: 1%;"> Chi phí </th>
+                            <thead >
+                                <tr class=" text-center" style="position: sticky; top:36px; background-color: #fff; z-index: 1;">
+                                    <th style="width: 1%;"> {{__('msg.phase')}}</th>
+                                    <th style="width: 21%;"> {{__('msg.originalProductCode')}} </th>
+                                    <th style="width: 75%;"> {{__('msg.originalProductName')}}</th>
+                                    <th style="width: 1%;"> {{__('msg.unit')}} </th>
+                                    <th style="width: 1%;"> {{__('msg.quantity')}}</th>
+                                    <th style="width: 1%;"> {{__('msg.ratio')}} </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,14 +90,11 @@
                                     <td class="py-0"> {{ collect($getDropListProducts)->pluck('unit')->first() }}</td>
                                     <td class="py-0 text-right "> 1 </td>
                                     <td class="py-0 text-right">1</td>
-                                    <td class="py-0 text-right">{{ number_format(collect($getDropListProducts)->pluck('costPrice')->first()) }}</td>
-
                                 </tr>
 
                                 @foreach ($getBoMs as $bom)
                                 @if ($bom->product_code == collect($getDropListProducts)->pluck('code')->first()
-                                && $bom->product_phase == collect($getDropListProducts)->pluck('phase')->first()
-                                && $bom->product_costPrice == collect($getDropListProducts)->pluck('costPrice')->first())
+                                && $bom->product_phase == collect($getDropListProducts)->pluck('phase')->first() )
                                 <tr class=" ">
                                     <td class="text-center p-0"> {{ $bom->material_phase}} </td>
                                     <td class="py-0 address"> {{ $bom->material_code }} </td>
@@ -126,45 +102,100 @@
                                     <td class="py-0"> {{ $bom->product_unit}} </td>
                                     <td class="py-0 text-right "> {{ number_format($bom->quantity) }} </td>
                                     <td class="py-0 text-right"> {{ ($bom->weight) }} </td>
-                                    <td class="py-0 text-right"> {{ number_format($bom->material_costPrice) }} </td>
                                 </tr>
-                                <tr>
-                                    <td class="py-0">
+                                <tr class="">
+                                    <td class="py-0 ">
                                         @include('partials.child-bom-process-list', [
                                         'materialCode_List' => $bom->material_code,
                                         'materialPhase_List' => $bom->material_phase,
-                                        'materialCostPrice_List' => $bom->material_costPrice,
                                         'getBoMs' => $getBoMs,
                                         ])
                                     </td>
                                 </tr>
                                 @endif
                                 @endforeach
-                                <!-- <tr>
-                                    <td colspan="7" class=" p-2 m-0">
-                                        <div class="row col-12 p-0 m-0">
-                                            <span class="input-group col-sm-3 m-0 p-0">
-                                                <input type="button" value="-" class="button-minus" data-field="quantity">
-                                                <input type="number" step="1" max="" value="1" min="1" name="quantity" class="quantity-field" id="quantity-field">
-                                                <input type="button" value="+" class="button-plus" data-field="quantity">
-                                            </span>
-                                            <span class="col-sm-9 m-0 p-0 text-right">
-                                                Chi phí sản xuất sản phẩm: <b>
-                                                    {{ collect($getDropListProducts)->pluck('code')->first() }} -
-                                                    {{ collect($getDropListProducts)->pluck('name')->first() }}
-                                                </b>
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td colspan="3" class="text-right bg-info p-2"> <b class="text-lg" id="grandTotalBomList">0.00</b></td>
-                                </tr> -->
                             </tbody>
-
                         </table>
                     </div>
+                    <!-- TREE -->
+                    <div class="row col-12 p-0 m-0  divTreeBoM ">
+                        <table class="table table-bordered py-0 my-0">
+                            <div class=" d-flex col-12 border-bottom m-0 p-0 py-1 pr-1 mt-2  text-right " style="background-color: #DDDDDD; ">
+                                <div class="col-9 p-0 m-0 text-wrap  text-center"><b> {{__('msg.materialName')}}</b></div>
+                                <div class="col-1 p-0 m-0 text-wrap"><i class="fa-solid fa-list-ol"></i> {{__('msg.quantity')}}</div>
+                                <div class="col-1 p-0 m-0 text-wrap"><i class="fa-solid fa-weight-scale"></i>  {{__('msg.ratio')}}</div>
+                                <div class="col-1 p-0 m-0 text-wrap"> </div>
+                            </div>
+                            <tbody>
+                                <?php $numList = 0;?>
+                                @foreach ($getBoMs as $bom)
+                                @if ($bom->product_code == collect($getDropListProducts)->pluck('code')->first()
+                                && $bom->product_phase == collect($getDropListProducts)->pluck('phase')->first() )
+                                <div class=" col-12 m-0 p-0">
+                                    <table class="table divTreeBoM mx-0">
+                                        <tbody>
+                                            <tr data-widget="expandable-table" aria-expanded="false" class="child-row">
+                                                <td class=" border-right-0 border-top-0 p-0 pt-2 pr-1 ">
+                                                    <div class="col-12 row m-0 p-0">
+                                                        <div class="col-9 px-0">
+                                                            <span class=""> <b> <u>{{++$numList}}. {{ $bom->material_phase }}</u></b></span>
+                                                            @if (in_array($bom->material_code, array_column($getBoMs, 'product_code'))
+                                                            && in_array($bom->material_phase, array_column($getBoMs, 'product_phase')) )
+                                                            <span class="">
+                                                                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                                                                {{ $bom->material_code }} | {{ $bom->material_name }}
+                                                            </span>
+                                                            @else
+                                                            <span class="ml-4"> {{ $bom->material_code }} | {{ $bom->material_name }} </span>
+                                                            @endif
+                                                        </div>
+                                                        <div class="col-1 p-0 text-right countQuantity">
+                                                            <span class="">{{ number_format($bom->quantity) }}</span>
+                                                        </div>
+                                                        <div class="col-1 p-0 text-right">
+                                                            <span class="">{{ ($bom->weight) }}</span>
+                                                        </div>
+
+                                                        <div class="col-1 p-0 text-right">
+                                                            <div class="btn btn-group p-0">
+                                                                <a class="btn text-success p-0 addBtn-trigger btn-add-bom" data-product-id="{{ $bom->materialID }}">
+                                                                    <i class="fas fa-circle-plus"></i>
+                                                                </a>
+                                                                <a class="btn text-warning mx-1 p-0 updateBtn-trigger  btn-edit-bom" data-bom-productid="{{ $bom->productID }}" data-bom-materialid="{{ $bom->materialID }}">
+                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                </a>
+                                                                <a class="btn text-danger p-0 btn-delete-bom" type="submit" href="/bom/{{$bom->productID}}/{{$bom->materialID}}/delete/{{collect($getDropListProducts)->pluck('id')->first()}}" onclick="return confirm('Are you sure you want to delete: {{ $bom->material_name }}?')">
+                                                                    <i class="fa-solid fa-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="expandable-body ">
+                                                <td class="border-right-0 p-0  ">
+                                                    <div class="p-0 m-0 border-right-0">
+                                                        @include('partials.child-bom-process-tree', [
+                                                        'materialCode_Tree' => $bom->material_code,
+                                                        'materialPhase_Tree' => $bom->material_phase,
+                                                        'productIDParrent' => collect($getDropListProducts)->pluck('id')->first() ,
+
+                                                        'getBoMs' => $getBoMs,])
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @endif
+                                @endforeach
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
+        <!-- DIAGRAM -->
         <div class="card">
             <div class="card-header btn bg-dark pb-0" data-card-widget="collapse">
                 <h3 class="card-title text-white ">2. Diagram</h3>
@@ -181,23 +212,23 @@
                                 <li>
                                     <a class="p-2"><img style="width: 100px; height:100px;"><span class="bg-primary text-md">{{collect($getDropListProducts)->pluck('code')->first()}}</span>
                                         <p class="m-0 text-muted">{{collect($getDropListProducts)->pluck('process_name')->first()}}</p>
-
                                     </a>
                                     <ul>
                                         @foreach($getBoMs as $bomDiagram)
                                         @if ($bomDiagram->product_code == collect($getDropListProducts)->pluck('code')->first()
-                                        && $bomDiagram->product_phase == collect($getDropListProducts)->pluck('phase')->first()
-                                        && $bomDiagram->product_costPrice == collect($getDropListProducts)->pluck('costPrice')->first())
+                                        && $bomDiagram->product_phase == collect($getDropListProducts)->pluck('phase')->first() )
                                         <li>
                                             <a><img class="" style="width: 50px; height:50px;"><span class="bg-info text-sm">
                                                     {{$bomDiagram->material_code}}
-                                                    <i style="font-size: 13px;">x{{ number_format($bomDiagram->quantity)}}</i>
+                                                    <i class="fa-solid fa-weight-scale">{{ number_format($bomDiagram->weight)}}</i>
+                                                    <label class="m-0">
+                                                        x{{ number_format($bomDiagram->quantity)}}
+                                                    </label>
                                                 </span>
                                             </a>
                                             @include('partials.child-bom-process-diagram',
                                             ['materialCode_Diagram' => $bomDiagram->material_code,
                                             'materialPhase_Diagram' => $bomDiagram->material_phase,
-                                             'materialCostPrice_Diagram' => $bomDiagram->material_costPrice,
                                             'getBoMs' => $getBoMs,
                                             ])
                                         </li>
@@ -212,9 +243,22 @@
             </div>
         </div>
     </div>
+
+    @include('layouts.bom.partial-bom-add', [ 'getListProducts' => $getListProducts, 'phaseID' => collect($getDropListProducts)->pluck('product_PhaseID')->first() ])
+    @include('layouts.bom.partial-bom-edit',  ['phaseID' => collect($getDropListProducts)->pluck('product_PhaseID')->first() ])
+    @include('layouts.bom.partial-bom-copy')
+
 </section>
+
+
+
+
+@section('scripts-bom')
+@include('scripts.script-bom')
+@endsection
 
 @push('scripts_fixPushMenu')
 <script src="../../dist/js/adminlte.min.js?v=3.2.0"></script>
 @endpush
+
 @endsection

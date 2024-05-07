@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="row ">
             <div class="col-sm-6">
-                <h1 class="m-0 text-navy">Loại</h1>
+                <h1 class="m-0 text-navy">{{__('msg.type')}}</h1>
             </div><!-- /.col -->
 
         </div><!-- /.row -->
@@ -18,7 +18,7 @@
         <!-- danh sách team  -->
         <div class="card">
             <div class="card-header btn bg-white pb-0" data-card-widget="collapse">
-                <h3 class="card-title text-navy ">Danh sách Loại</h3>
+                <h3 class="card-title text-navy ">{{__('msg.typeList')}}</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool text-white" data-card-widget="collapse">
                         <i class="fas fa-minus"></i> </button>
@@ -38,15 +38,14 @@
                     <thead>
                         <tr class="text-center">
                             <th style="width: 1%">
-                                STT
+                            {{__('msg.num')}}
                             </th>
                             <th>
-                                Tên Loại
+                                {{__('msg.typeName')}}
                             </th>
                             <th style="width: 1%" class="text-center">
                                 <a href="/type-add-form" class="btn btn-success btn-sm col " data-toggle="modal" data-target="#AddForm">
-                                    <i class="fas fa-plus"></i>
-                                    <span>Add</span> </a>
+                                    <i class="fas fa-plus"></i> </a>
                             </th>
                         </tr>
                     </thead>
@@ -66,7 +65,7 @@
                                         <i class="fas fa-pencil-alt">
                                         </i>
                                     </a>
-                                    <a class="btn btn-link btn-sm" type="submit" href="/type/{{$type->id}}/delete" onclick="return confirm('Bạn chọn xoá Loại: {{ $numList }} -- {{ $type->name}}?')">
+                                    <a class="btn btn-link btn-sm" type="submit" href="/type/{{$type->id}}/delete" onclick="return confirm('Are you sure you want to delete: {{ $numList }} -- {{ $type->name}}?')">
                                         <i class="fas fa-trash">
                                         </i>
                                     </a>
@@ -78,7 +77,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header bg-primary">
-                                        <h3 class="card-title" id="editUserModalLabel">Sửa thông tin Chủng</h3>
+                                        <h3 class="card-title" id="editUserModalLabel">{{__('msg.editType')}}</h3>
                                         <button type="button" class="close" data-dismiss="modal" area-label="Close">
                                             <span aria-hidden="true"><i class="fa fa-close"></i> </span>
                                         </button>
@@ -89,7 +88,7 @@
                                         <div class="modal-body">
 
                                             <div class="form-group">
-                                                <label class="mb-0">1. Tên Loại</label>
+                                                <label class="mb-0">1. {{__('msg.typeName')}}</label>
                                                 <input class="form-control" name="nameEdit" value="{{ $type->name }}" required>
                                             </div>
 
@@ -115,7 +114,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h3 class="card-title">Thêm mới Loại</h3>
+                <h3 class="card-title">{{__('msg.addNewType')}}</h3>
                 <button type="button" class="close" data-dismiss="modal" area-label="Close">
                     <span aria-hidden="true"><i class="fa fa-close"></i> </span>
                 </button>
@@ -126,8 +125,8 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="mb-0">1. Tên Loại mới</label>
-                        <input class="form-control" name="nameAdd" placeholder="ex: Van khoá gas" required>
+                        <label class="mb-0">1. {{__('msg.newTypeName')}}</label>
+                        <input class="form-control" name="nameAdd"  required>
                     </div>
 
                 </div>
@@ -139,4 +138,7 @@
         </div>
     </div>
 </div>
+@push('scripts_fixPushMenu')
+<script src="../../dist/js/adminlte.min.js?v=3.2.0"></script>
+@endpush
 @endsection

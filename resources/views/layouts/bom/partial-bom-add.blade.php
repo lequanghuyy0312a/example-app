@@ -14,6 +14,7 @@
 
                         <div class="form-group text-center">
                             <input hidden class="form-control" name="productIDAdd" id="showIDAdd" />
+                            <input hidden class="form-control " name="hiddenProductIdParrentAddBoM" id="hiddenProductIdParrentAddBoM" />
                             <h5><b id="showPhaseAdd"></b> - <b id="showCodeAdd"></b></h5>
                             <p id="showNameAdd"></p>
                         </div>
@@ -21,9 +22,9 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th style="width: 78%" class="text-center">Product / Material</th>
-                                    <th style="width: 10%" class="text-center">Quantity</th>
-                                    <th style="width: 11%" class="text-center">Ratio</th>
+                                    <th style="width: 78%" class="text-center">{{__('msg.product')}} / {{__('msg.material')}}</th>
+                                    <th style="width: 10%" class="text-center">{{__('msg.quantity')}}</th>
+                                    <th style="width: 11%" class="text-center">{{__('msg.ratio')}}</th>
                                     <th style="width: 1%" class="text-center">
                                         <a class="btn btn-add-row text-success p-0 m-0" id="addRowBtn">
                                             <i class="fa-solid fa-plus"></i>
@@ -34,20 +35,21 @@
                             <tbody id="dynamicRowsContainer">
                                 <tr class="dynamic-row ">
                                     <td>
-                                        <select hidden class="form-control select2-danger"   data-dropdown-css-class="select2-danger" id name="materialIDAdd[]" style="width: 100%;"  >
-                                            <option selected disabled>Chọn Linh kiện</option>
-                                            <?php $numAdd = 0;
-                                            $sortedProducts = collect($getListProducts)->sortBy('costPrice')->all(); ?>
-                                            @foreach($sortedProducts as $product)
-                                            <option value="{{ $product->id }}">{{ ++$numAdd }}.{{ $product->phase }} - {{ $product->name }}: {{ $product->costPrice }}</option>
+                                        <select hidden class="form-control select2-danger" data-dropdown-css-class="select2-danger" name="materialIDAdd[]" style="width: 100%;">
+                                            <option selected disabled>{{__('msg.chooseMaterial')}}</option>
+                                            <?php $numAdd = 0;  ?>
+                                            @foreach($getListProducts as $product)
+                                            @if($product->product_PhaseID == $phaseID)
+                                            <option value="{{ $product->id }}">{{ ++$numAdd }}. {{ $product->code }} - {{ $product->name }}</option>
+                                            @endif
                                             @endforeach
                                         </select>
                                     </td>
                                     <td>
-                                        <input hidden class="form-control p-0 px-1" name="quantityAdd[]" type="number" min="0" step="any"   />
+                                        <input hidden class="form-control p-0 px-1" name="quantityAdd[]" type="number" min="0" step="any" />
                                     </td>
                                     <td>
-                                        <input hidden class="form-control p-0 px-1" name="weightAdd[]" type="number" min="0" step="any"   />
+                                        <input hidden class="form-control p-0 px-1" name="weightAdd[]" type="number" min="0" step="any" />
                                     </td>
                                     <td>
                                         <a hidden class="btn btn-remove-row text-danger p-0 m-0 pt-2">

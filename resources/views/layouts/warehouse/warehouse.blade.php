@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <div class="row ">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Kho</h1>
+                <h1 class="m-0 text-dark">{{__('msg.warehouse')}}</h1>
             </div><!-- /.col -->
 
         </div><!-- /.row -->
@@ -18,7 +18,7 @@
     <!-- danh sách team  -->
     <div class="card">
         <div class="card-header btn bg-white pb-0" data-card-widget="collapse">
-            <h3 class="card-title text-dark ">Danh sách Kho</h3>
+            <h3 class="card-title text-dark ">{{__('msg.warehouseList')}}</h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool text-white" data-card-widget="collapse">
                     <i class="fas fa-minus"></i> </button>
@@ -38,10 +38,10 @@
                 <thead>
                     <tr class="text-center">
                         <th style="width: 1%">
-                            STT
+                            {{__('msg.num')}}
                         </th>
                         <th>
-                            Tên loại Kho
+                            {{__('msg.warehouseName')}}
                         </th>
                         <th style="width: 1%" class="text-center">
                             <a href="/warehouse-add-form" class="btn btn-success btn-sm col " data-toggle="modal" data-target="#AddForm">
@@ -67,7 +67,7 @@
                                     <i class="fas fa-pencil-alt">
                                     </i>
                                 </a>
-                                <a class="btn btn-link btn-sm" type="submit" href="/warehouse/{{$warehouse->id}}/delete" onclick="return confirm('Bạn chọn xoá Kho: {{ $numList }} -- {{ $warehouse->name}}?')">
+                                <a class="btn btn-link btn-sm" type="submit" href="/warehouse/{{$warehouse->id}}/delete" onclick="return confirm('Are you sure you want to delete: {{ $numList }} -- {{ $warehouse->name}}?')">
                                     <i class="fas fa-trash">
                                     </i>
                                 </a>
@@ -79,7 +79,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header bg-primary">
-                                    <h3 class="card-title" id="editUserModalLabel">Sửa thông tin Kho</h3>
+                                    <h3 class="card-title" id="editUserModalLabel">{{__('msg.editWarehouse')}}</h3>
                                     <button type="button" class="close" data-dismiss="modal" area-label="Close">
                                         <span aria-hidden="true"><i class="fa fa-close"></i> </span>
                                     </button>
@@ -89,7 +89,7 @@
                                     @csrf
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label class="mb-0">1. Tên loại Kho</label>
+                                            <label class="mb-0">1. {{__('msg.warehouseName')}}</label>
                                             <input class="form-control" name="nameEdit" value="{{ $warehouse->name }}" required>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h3 class="card-title">Thêm mới Kho</h3>
+                <h3 class="card-title">{{__('msg.addNewWarehouse')}}</h3>
                 <button type="button" class="close" data-dismiss="modal" area-label="Close">
                     <span aria-hidden="true"><i class="fa fa-close"></i> </span>
                 </button>
@@ -125,8 +125,8 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="mb-0">1. Tên Kho mới</label>
-                        <input class="form-control" name="nameAdd" placeholder="ex: Kho thành phẩm" required>
+                        <label class="mb-0">1. {{__('msg.newWarehouseName')}}</label>
+                        <input class="form-control" name="nameAdd" required>
                     </div>
                 </div>
                 <!-- /.card-body -->

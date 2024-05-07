@@ -9,7 +9,7 @@ class BoM extends Model
 {
 
     protected $table =  'BoM';
-    protected $filltable = 'id,productID, materialID, quantity, latestUpdated';
+    protected $filltable = 'id,productID, materialID, productCode, materialCode, quantity, latestUpdated';
     protected $primarykey = 'id';
 
     public $timestamps = false;

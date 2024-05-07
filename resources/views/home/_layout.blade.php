@@ -14,7 +14,6 @@
   <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf_viewer.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -67,7 +66,26 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars text-dark"></i></a>
         </li>
+
       </ul>
+      <ul class="navbar-nav ml-auto ">
+        <!-- Navbar Search -->
+        <!-- Messages Dropdown Menu -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false" id="dropdown01">
+            <i class="fa-solid fa-globe"></i>
+          </a>
+          <div class="dropdown-menu p-0 dropdown-menu-right dropdown-menu-lg " aria-labelledby="dropdown01">
+            <a class="dropdown-item" href="javascript:void(0);" onclick="changeLanguage('vi')"> <img class="mr-1" style="width: 25px; border: 0.5px solid #000;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/510px-Flag_of_Vietnam.svg.png"> Tiếng Việt</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:void(0);" onclick="changeLanguage('ja')"> <img class="mr-1" style="width: 25px; border: 0.5px solid #000;" src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Flag_of_Japan.svg/800px-Flag_of_Japan.svg.png"> 日本語</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:void(0);" onclick="changeLanguage('en')"> <img class="mr-1" style="width: 25px; border: 0.5px solid #000;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1200px-Flag_of_the_United_Kingdom_%281-2%29.svg.png"> English</a>
+
+        </div>
+        </li>
+      </ul>
+    </nav>
       <!-- Right navbar links -->
 
     </nav>
@@ -139,11 +157,19 @@
     <!-- SweetAlert2 -->
     <script src="../../plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
-    <script src="../../plugins/toas
-    tr/toastr.min.js"></script>
+    <script src="../../plugins/toastr/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
     @include('scripts.my-script')
     @yield('scripts-bom')
+    @yield('scripts-product')
+    @yield('scripts-product-detail')
+    @yield('scripts-purchase-order')
+    @yield('scripts-process-purchase')
+    @yield('scripts-quotation-supplier')
+    @yield('scripts-compare-prices')
+    @yield('scripts-partner')
+    @yield('scripts-partner-detail')
+    @stack('scripts_fixPushMenu')
     <script src="../../plugins/select2/js/select2.full.min.js"></script>
 
 </body>

@@ -56,4 +56,10 @@ class WarehouseController extends Controller
             return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
         }
     }
+
+    public function getIportExportList()
+    {
+        return view('layouts.warehouse.import-export', [
+        ]);
+    }
 }

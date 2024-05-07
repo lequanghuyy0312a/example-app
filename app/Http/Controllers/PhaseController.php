@@ -20,6 +20,11 @@ class PhaseController extends Controller
     {
         $phase = new Phase();
         $phase->name = $request->input('nameAdd');
+        $phase->USDtoVND = $request->input('usdToVNDAdd') == '' ? null :str_replace(',', '',$request->input('usdToVNDAdd'));
+        $phase->USDtoJPY = $request->input('usdToJPYAdd') == '' ? null :str_replace(',', '',$request->input('usdToJPYAdd'));
+        $phase->JPYtoVND = $request->input('jpyToVNDAdd') == '' ? null :str_replace(',', '',$request->input('jpyToVNDAdd'));
+        $phase->Al =  $request->input('AlAdd') == '' ? null : str_replace(',', '',$request->input('AlAdd'));
+
         $res = $phase->save();
         if ($res) {
             session()->flash('success', 'Thao tác thành công');
@@ -44,7 +49,11 @@ class PhaseController extends Controller
     public function editPhase(Request $request,  $id) // sửa 01 Phase
     {
         $phase = Phase::find($id);
-        $phase->name      = $request->input('nameEdit');
+        $phase->name = $request->input('nameEdit');
+        $phase->USDtoVND = $request->input('usdToVNDEdit') == '' ? null :str_replace(',', '',$request->input('usdToVNDEdit'));
+        $phase->USDtoJPY = $request->input('usdToJPYEdit') == '' ? null :str_replace(',', '',$request->input('usdToJPYEdit'));
+        $phase->JPYtoVND = $request->input('jpyToVNDEdit') == '' ? null :str_replace(',', '',$request->input('jpyToVNDEdit'));
+        $phase->Al =  $request->input('AlEdit') == '' ? null : str_replace(',', '',$request->input('AlEdit'));
         $res = $phase->update();
         if ($res) {
             session()->flash('success', 'Thao tác thành công');

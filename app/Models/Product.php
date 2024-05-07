@@ -17,10 +17,6 @@ class Product extends Model
     name,
     image,
     warehouseID,
-    sellingPrice,
-    costPrice,
-    orderCode,
-    orderCode,
     latestUpdated,
     unit,  ';
     protected $primarykey = 'id';
