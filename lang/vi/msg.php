@@ -202,7 +202,7 @@ return [
     'QCcheck' => 'QC kiểm',
     'receiptDate' => 'Ngày nhận',
     'addNewPOProcess' => 'Thêm mới tiến trình PO',
-    'processPO' => 'Quan lý tiến trình PO',
+    'processPO' => 'Quản lý tiến trình PO',
 
         //////////////// form PO////////////////
 

@@ -103,6 +103,41 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="modal fade" id="ApproveForm{{ $detail->productID }}" tabindex="-1" role="dialog" aria-hidden="true" style="z-index:1050; display:none">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-primary">
+                                                    <h3 class="card-title">{{__('msg.approveNewPOProcess')}}</h3>
+                                                    <button type="button" class="close" data-dismiss="modal" area-label="Close">
+                                                        <span aria-hidden="true"><i class="fa fa-close"></i> </span>
+                                                    </button>
+                                                </div>
+                                                <!-- /.card-header -->
+                                                <!-- form start -->
+                                                <form action="{{ route('po-process-approve-submit', [$detail->productID]) }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="hiddenPOIDToApprove" value="{{$savePOID}}" />
+
+                                                    <div class="modal-body">
+                                                        <div class="form-group clearfix">
+                                                            <div class="icheck-primary d-inline">
+                                                                <input type="radio" id="radioPrimary1" name="r1" checked>
+                                                                <label for="radioPrimary1  text-danger"> NG </label>
+                                                            </div>
+                                                            <div class="icheck-primary d-inline">
+                                                                <input type="radio" id="radioPrimary2" name="r1">
+                                                                <label for="radioPrimary2 text-success">  OK </label>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.card-body -->
+                                                    <div class="text-right card-footer">
+                                                        <button type="submit" class="btn btn-primary">{{__('msg.save')}}</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <tr>
                                         <td colspan="12" class="p-0" style="border-bottom: solid 1px;">
                                             <table class="table table-bordered w-75 float-right  mb-2">
@@ -127,7 +162,7 @@
                                                         <td class="text-center  p-0 m-0">
                                                             <div class="btn btn-group  p-0 m-0">
                                                                 <a class="btn btn-link btn-sm  p-0 m-0 px-1">
-                                                                    {!! $process->approve == 0 ? '<i class="fa-regular fa-circle-check text-success"></i>' :
+                                                                    {!! $process->approve == 0 ? '<i class="fa-solid fa-clipboard-list text-success"></i>' :
                                                                     ($process->approve == 1 ? '<i class="fa-solid fa-cubes-stacked  text-warning"></i>' : '<i class="fa-solid fa-triangle-exclamation  text-danger"></i>') !!}
 
                                                                 </a>
@@ -142,7 +177,7 @@
                                                     <?php
                                                     if ($process->approve == 1) {
                                                         $tempTotalSuccess += $process->quantity;
-                                                    } else if ($process->approve == 0) {
+                                                    } else {
                                                         $tempTotalProcess += $process->quantity;
                                                     }
                                                     ?>
@@ -173,11 +208,11 @@
                                                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ $success }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $success }}%">
                                                                     {{ $success }}%
                                                                 </div>
-                                                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="{{ $processing }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $processing }}%">
-                                                                    {{ $processing }}%
+                                                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="{{ $processing }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $processing}}%">
+                                                                    {{ $processing}}%
                                                                 </div>
                                                                 <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="{{ 100 - $success - $processing}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ 100 - $success - $processing}}%">
-                                                                    {{ 100 - $success - $processing }}%
+                                                                    {{ 100 - $success - $processing}}%
                                                                 </div>
                                                             </div>
                                                             <span class="px-1 text-xs d-flex justify-content-between">
@@ -186,7 +221,7 @@
                                                                 <b class="text-muted">
                                                                     Chưa giao: {{ number_format($detail->MOQ - $tempTotalSuccess - $tempTotalProcess) }}
                                                                 </b>
-
+                                                            </span>
                                                         </td>
                                                     </tr>
                                                     @endif

@@ -198,6 +198,7 @@ Route::group(
         Route::post('/po-process-add-submit/{materialID}', [PurchaseOrderController::class, 'addPOProcess'])->name('po-process-add-submit');
         Route::get('/po-process/{id}/delete/{poid}', [PurchaseOrderController::class, 'deletePOProcess']);
 
+        Route::post('/po-process-approve-submit/{materialID}', [PurchaseOrderController::class, 'approvePOProcess'])->name('po-process-approve-submit');
 
 
     }

@@ -121,32 +121,30 @@ class PurchaseOrderController extends Controller
 
         // No similar record found, proceed with adding the new purchaseOrderAdd
         $purchaseOrderAdd = new PurchaseOrder();
-        $purchaseOrderAdd->phaseID = $request->input('hiddenPhaseID');
-        $purchaseOrderAdd->ATTN = $request->input('ATTNAdd');
-        $purchaseOrderAdd->purchaseOrderNo = $request->input('purchaseOrderNoAdd');
-        $purchaseOrderAdd->POOnUTC = $request->input('POOnUTCAdd');
-        $purchaseOrderAdd->currency = $request->input('currencyAdd');
-        $purchaseOrderAdd->partnerID = $request->input('partnerIDPurchaseOrderAdd');
-        $purchaseOrderAdd->acceptedBy = NULL;
-        $purchaseOrderAdd->acceptedOnUTC = NULL;
-        $purchaseOrderAdd->note = $request->input('noteAdd');
-        $purchaseOrderAdd->approve = 0;
-        $purchaseOrderAdd->createdBy = 'Khoa';
-        $purchaseOrderAdd->rate = $request->input('rateAdd');
+        $purchaseOrderAdd->phaseID          = $request->input('hiddenPhaseID');
+        $purchaseOrderAdd->ATTN             = $request->input('ATTNAdd');
+        $purchaseOrderAdd->purchaseOrderNo  = $request->input('purchaseOrderNoAdd');
+        $purchaseOrderAdd->POOnUTC          = $request->input('POOnUTCAdd');
+        $purchaseOrderAdd->currency         = $request->input('currencyAdd');
+        $purchaseOrderAdd->partnerID        = $request->input('partnerIDPurchaseOrderAdd');
+        $purchaseOrderAdd->acceptedBy       = NULL;
+        $purchaseOrderAdd->acceptedOnUTC    = NULL;
+        $purchaseOrderAdd->note             = $request->input('noteAdd');
+        $purchaseOrderAdd->approve          = 0;
+        $purchaseOrderAdd->createdBy        = 'Khoa';
+        $purchaseOrderAdd->rate             = $request->input('rateAdd');
         $res = $purchaseOrderAdd->save();
         if ($res) {
             // Successful addition
-            $purchaseOrderId = $purchaseOrderAdd->id;
-            $productIDs        = $request->input('productIDPOAdd');
+            $purchaseOrderId    = $purchaseOrderAdd->id;
+            $productIDs         = $request->input('productIDPOAdd');
             $units              = $request->input('unitAdd');
             $quantities         = $request->input('quantityAdd');
             $unitPrices         = $request->input('unitPriceAdd');
             $vats               = $request->input('VATAdd');
             $descriptions       = $request->input('descriptionAdd');
-            $deliveryDates              = $request->input('deliveryDateAdd');
-            $POnotes              = $request->input('PONoteAdd');
-
-
+            $deliveryDates      = $request->input('deliveryDateAdd');
+            $POnotes            = $request->input('PONoteAdd');
 
             foreach ($productIDs as $key => $productID) {
                 $purchaseOrderDetail = new PurchaseOrderDetail();
@@ -366,7 +364,7 @@ class PurchaseOrderController extends Controller
         $res = $process->save();
         if ($res) {
             session()->flash('success', 'Thao tác thành công');
-            return redirect('po-process/'.$poid);
+            return redirect('po-process/' . $poid);
         } else {
             return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
         }
@@ -377,12 +375,11 @@ class PurchaseOrderController extends Controller
             $process = ProcessPurchase::find($id);
             $process->delete();
             session()->flash('success', 'Thao tác thành công');
-            return redirect('po-process/'.$poid);
+            return redirect('po-process/' . $poid);
         } catch (QueryException $e) {
             return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
         }
     }
-
 }
