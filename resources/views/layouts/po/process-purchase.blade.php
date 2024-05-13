@@ -37,7 +37,9 @@
                                         <th class=" p-1" style="width: 7%">{{__('msg.purchaseOrderSubTotal')}} </th>
                                         <th class=" p-1 " style="width: 10%">{{__('msg.purchaseOrderDeliveryDate')}} </th>
                                         <th class=" p-1" style="width: 10%">{{__('msg.purchaseOrderNote')}}</th>
-                                        <th class=" p-1" style="width: 1%"></th>
+                                        <th class=" p-1" style="width: 1%"> <a class="btn btn-link btn-sm p-0 m-0 px-1" data-toggle="modal" data-target="#NGForm{{$savePOID}}">
+                                                <i class="fa-solid fa-truck-ramp-box p-1 rounded-circle text-light bg-danger"></i>
+                                            </a></th>
                                     </tr>
                                 </thead>
                                 <tbody style="font-size:14px">
@@ -103,41 +105,34 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal fade" id="ApproveForm{{ $detail->productID }}" tabindex="-1" role="dialog" aria-hidden="true" style="z-index:1050; display:none">
+                                    <div class="modal fade" id="NGForm{{$savePOID}}" tabindex="0" role="dialog" aria-hidden="true" style="z-index:1050; display:none">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
-                                                <div class="modal-header bg-primary">
-                                                    <h3 class="card-title">{{__('msg.approveNewPOProcess')}}</h3>
+                                                <div class="modal-header bg-warning p-0 m-0 pt-2 pl-3">
+                                                    <h3 class="card-title">{{__('msg.NGForm')}}</h3>
                                                     <button type="button" class="close" data-dismiss="modal" area-label="Close">
                                                         <span aria-hidden="true"><i class="fa fa-close"></i> </span>
                                                     </button>
                                                 </div>
-                                                <!-- /.card-header -->
-                                                <!-- form start -->
-                                                <form action="{{ route('po-process-approve-submit', [$detail->productID]) }}" method="post">
+                                                <form action="{{route('po-process-approve-edit-submit', $savePOID)}}" method="post">
+                                                    @method("PATCH")
                                                     @csrf
-                                                    <input type="hidden" name="hiddenPOIDToApprove" value="{{$savePOID}}" />
-
-                                                    <div class="modal-body">
-                                                        <div class="form-group clearfix">
-                                                            <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="radioPrimary1" name="r1" checked>
-                                                                <label for="radioPrimary1  text-danger"> NG </label>
-                                                            </div>
-                                                            <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="radioPrimary2" name="r1">
-                                                                <label for="radioPrimary2 text-success">  OK </label>
-                                                            </div> 
+                                                    <div class="modal-body pb-0">
+                                                        <div>
+                                                            <h3 class="uppercase text-center">{{__('msg.RefurnStockForm')}}</h3>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-right">Ngày</p>
                                                         </div>
                                                     </div>
-                                                    <!-- /.card-body -->
-                                                    <div class="text-right card-footer">
+                                                    <div class="text-right card-footer p-1">
                                                         <button type="submit" class="btn btn-primary">{{__('msg.save')}}</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
+
                                     <tr>
                                         <td colspan="12" class="p-0" style="border-bottom: solid 1px;">
                                             <table class="table table-bordered w-75 float-right  mb-2">
@@ -154,30 +149,112 @@
                                                         <td class="text-right p-1 email">{{ ($process->date) }}</td>
                                                         <td class="text-left p-1 email">{{ $process->note }}</td>
                                                         <td class="text-center p-1 email">
-                                                            {!! $process->approve == 0 ? '<b class="text-secondary text-warning">' . __('msg.checking') . '</b>' :
-                                                            ($process->approve == 1 ? '<b class="text-success">OK</b>' : '<b class="text-danger">NG</b>') !!}
+                                                            {!! $process->approve == 0 ? '<b class="text-orange">' . __('msg.checking') . '</b>' :
+                                                            ($process->approve == 3 ? '<s class="text-secondary">' . __('msg.NGReturn') . '</s>' :
+                                                            ($process->approve == 1 ? '<b class="text-success">OK</b>' :
+                                                            ($process->approve == 2 ? '<b class="text-danger">'.__('msg.NGInstruction').'</b>' : '<b class="text-dark">undefined</b>')))!!}
                                                         </td>
-                                                        <td class="text-right p-1 email">{{ ($process->quantity) }}</td>
+                                                        <td class="text-right p-1 email">
+                                                            {!! $process->approve == 3 ? '<s>' . $process->quantity . '</s>' : $process->quantity !!}
+                                                        </td>
 
-                                                        <td class="text-center  p-0 m-0">
+
+                                                        <td class="text-right  p-0 m-0">
                                                             <div class="btn btn-group  p-0 m-0">
-                                                                <a class="btn btn-link btn-sm  p-0 m-0 px-1">
-                                                                    {!! $process->approve == 0 ? '<i class="fa-solid fa-clipboard-list text-success"></i>' :
-                                                                    ($process->approve == 1 ? '<i class="fa-solid fa-cubes-stacked  text-warning"></i>' : '<i class="fa-solid fa-triangle-exclamation  text-danger"></i>') !!}
-
+                                                                @if($process->approve == 0)
+                                                                <a class="btn btn-link btn-sm p-0 m-0 px-1" data-toggle="modal" data-target="#ApproveForm{{$process->id}}">
+                                                                    <i class="fa-solid fa-clipboard-list text-orange"></i>
                                                                 </a>
-                                                                <a class="btn btn-link btn-sm p-0 m-0 px-1" href="/po-process/{{$process->id}}/delete/{{$savePOID}}" onclick="return confirm('Are you sure you want to delete ?')">
+                                                                @elseif($process->approve == 1)
+                                                                <a class="btn btn-link btn-sm p-0 m-0 px-1" data-toggle="modal" data-target="#InWarehouse{{$process->id}}">
+                                                                    <i class="fa-solid fa-cubes-stacked  text-success"></i>
+                                                                </a>
+                                                                @elseif($process->approve == 2)
+                                                                <a class="btn btn-link btn-sm p-0 m-0 px-1" data-toggle="modal" data-target="#NGForm{{$process->id}}">
+                                                                    <i class="fa-solid fa-triangle-exclamation  text-danger"></i>
+                                                                </a>
+                                                                @else
+                                                                <a href="/print-PO-process-return/{{$savePOID}}" rel="noopener" target="_blank" class="btn btn-link btn-sm p-0 m-0 px-1">
+
+                                                                    <i class="fa-solid fa-print text-secondary"></i>
+                                                                </a>
+                                                                @endif
+                                                                <a class="btn btn-link btn-sm p-0 m-0 px-1" href="/po-process/{{$process->id}}/delete" onclick="return confirm('Are you sure you want to delete ?')">
                                                                     <i class="fas text-secondary fa-trash"></i>
                                                                 </a>
 
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                    <div class="modal fade" id="ApproveForm{{ $process->id }}" tabindex="0" role="dialog" aria-hidden="true" style="z-index:1050; display:none">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-primary p-0 m-0 pt-2 pl-3">
+                                                                    <h3 class="card-title text-capitalize">{{__('msg.approveProcess')}}</h3>
+                                                                    <button type="button" class="close" data-dismiss="modal" area-label="Close">
+                                                                        <span aria-hidden="true"><i class="fa fa-close"></i> </span>
+                                                                    </button>
+                                                                </div>
+                                                                <form action="{{route('po-process-approve-edit-submit', $process->id)}}" method="post">
+                                                                    @method("PATCH")
+                                                                    @csrf
+                                                                    <div class="modal-body pb-0">
+                                                                        <div class="form-group d-flex justify-content-around">
+                                                                            <div class="">
+                                                                                <input type="radio" name="approveEdit" value="1" id="radioSuccess1">
+                                                                                <label for="radioSuccess1" class="mb-0 text-success">OK</label>
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <input type="radio" name="approveEdit" value="2" id="radioSuccess2">
+                                                                                <label for="radioSuccess2" class="mb-0 text-danger">{{__('msg.NGInstruction')}}</label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-right card-footer p-1">
+                                                                        <button type="submit" class="btn btn-primary">{{__('msg.save')}}</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal fade" id="NGForm{{ $process->id }}" tabindex="0" role="dialog" aria-hidden="true" style="z-index:1050; display:none">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-primary p-0 m-0 pt-2 pl-3">
+                                                                    <h3 class="card-title text-capitalize">{{__('msg.approveProcess')}}</h3>
+                                                                    <button type="button" class="close" data-dismiss="modal" area-label="Close">
+                                                                        <span aria-hidden="true"><i class="fa fa-close"></i> </span>
+                                                                    </button>
+                                                                </div>
+                                                                <form action="{{route('po-process-approve-edit-submit', $process->id)}}" method="post">
+                                                                    @method("PATCH")
+                                                                    @csrf
+                                                                    <div class="modal-body pb-0">
+                                                                        <div class="form-group d-flex justify-content-around">
+                                                                            <div class="">
+                                                                                <input type="radio" name="approveEdit" value="0" id="radioSuccess1">
+                                                                                <label for="radioSuccess1" class="mb-0 text-orange">{{__('msg.review')}}</label>
+                                                                            </div>
+                                                                            <div class="">
+                                                                                <input type="radio" name="approveEdit" value="3" id="radioSuccess2">
+                                                                                <label for="radioSuccess2" class="mb-0 text-danger">{{__('msg.NGReturn')}}</label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-right card-footer p-1">
+                                                                        <button type="submit" class="btn btn-primary">{{__('msg.save')}}</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
                                                     <?php
                                                     if ($process->approve == 1) {
                                                         $tempTotalSuccess += $process->quantity;
-                                                    } else {
+                                                    } elseif ($process->approve == 0) {
                                                         $tempTotalProcess += $process->quantity;
                                                     }
                                                     ?>
@@ -211,15 +288,15 @@
                                                                 <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="{{ $processing }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $processing}}%">
                                                                     {{ $processing}}%
                                                                 </div>
-                                                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="{{ 100 - $success - $processing}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ 100 - $success - $processing}}%">
+                                                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ 100 - $success - $processing}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ 100 - $success - $processing}}%">
                                                                     {{ 100 - $success - $processing}}%
                                                                 </div>
                                                             </div>
                                                             <span class="px-1 text-xs d-flex justify-content-between">
-                                                                <b class="text-muted"> Đã giao: {{ $tempTotalSuccess}}({{ $detail->unit }})</b>
-                                                                <b class="text-muted"> Đang xử lý: {{ $tempTotalProcess}}({{ $detail->unit }}) </b>
+                                                                <b class="text-muted"> {{__('msg.deliverySuccess')}}: {{ $tempTotalSuccess}} ({{ $detail->unit }})</b>
+                                                                <b class="text-muted"> {{__('msg.deliveryProcess')}}: {{ $tempTotalProcess}} ({{ $detail->unit }}) </b>
                                                                 <b class="text-muted">
-                                                                    Chưa giao: {{ number_format($detail->MOQ - $tempTotalSuccess - $tempTotalProcess) }}
+                                                                    {{__('msg.deliveryImcomplete')}}: {{ number_format($detail->MOQ - $tempTotalSuccess - $tempTotalProcess) }}
                                                                 </b>
                                                             </span>
                                                         </td>

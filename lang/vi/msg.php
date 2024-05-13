@@ -203,6 +203,18 @@ return [
     'receiptDate' => 'Ngày nhận',
     'addNewPOProcess' => 'Thêm mới tiến trình PO',
     'processPO' => 'Quản lý tiến trình PO',
+    'approveProcess' => 'Phê duyệt tiến trình PO',
+    'NGReturn' => 'NG - Trả hàng',
+    'NGInstruction' => 'NG - Xin chỉ thị',
+    'NGForm' => 'Xử lý lô hàng NG',
+    'RefurnStockForm' => 'Phiếu trả hàng không đạt',
+    'deliverySuccess' => 'Giao thành công',
+    'deliveryProcess' => 'Đang xử lý',
+    'deliveryImcomplete' => 'Còn lại chưa nhận',
+    'returnBy' => 'Người giao',
+    'receiveBy' => 'Người Nhận',
+    'storeKeeper' => 'Thủ Kho',
+    'review' => 'Kiểm tra lại',
 
         //////////////// form PO////////////////
 

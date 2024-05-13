@@ -232,7 +232,7 @@
             </div>
             <div class="col-5 text-center">
                 <p class="mb-0">BUYER </p>
-                <p class="mb-0"><b>KATSURA BIETNAM JSC</b></p>
+                <p class="mb-0"><b>KATSURA VIETNAM JSC</b></p>
                 <p>GENERAL DIRECTOR</p>
 
                 <p class="mt-5">TSUCHIHASHI IKUO</p>

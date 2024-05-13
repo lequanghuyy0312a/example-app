@@ -196,9 +196,12 @@ Route::group(
 
         Route::get('/po-process/{purchaseOrderId}', [PurchaseOrderController::class, 'processPO']);
         Route::post('/po-process-add-submit/{materialID}', [PurchaseOrderController::class, 'addPOProcess'])->name('po-process-add-submit');
-        Route::get('/po-process/{id}/delete/{poid}', [PurchaseOrderController::class, 'deletePOProcess']);
+        Route::get('/po-process/{id}/delete', [PurchaseOrderController::class, 'deletePOProcess']);
 
         Route::post('/po-process-approve-submit/{materialID}', [PurchaseOrderController::class, 'approvePOProcess'])->name('po-process-approve-submit');
+        Route::patch('po-process-approve-edit-submit/{id}', [PurchaseOrderController::class, 'approvePOProcess'])->name('po-process-approve-edit-submit');
+        Route::patch('po-process-into-warehouse-submit/{id}', [PurchaseOrderController::class, 'intoWarehouse'])->name('po-process-into-warehouse-submit');
+        Route::get('/print-PO-process-return/{POID}', [PurchaseOrderController::class, 'printProcessReturn']);
 
 
     }

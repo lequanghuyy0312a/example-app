@@ -213,7 +213,6 @@ class PurchaseOrderController extends Controller
     {
 
         $purchaseOrder = PurchaseOrder::find($id);
-        $purchaseOrder = new PurchaseOrder();
         $purchaseOrder->phaseID    =  $request->input('phaseIDEdit');
         $purchaseOrder->purchaseOrderCode    = $request->input('purchaseOrderCodeEdit');
         $purchaseOrder->purchaseOrderDate      = $request->input('purchaseOrderDateEdit');
@@ -369,10 +368,11 @@ class PurchaseOrderController extends Controller
             return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
         }
     }
-    public function deletePOProcess($id, $poid) // xoá 01 Type
+    public function deletePOProcess($id) // xoá 01 Type
     {
         try {
             $process = ProcessPurchase::find($id);
+            $poid = $process->POID;
             $process->delete();
             session()->flash('success', 'Thao tác thành công');
             return redirect('po-process/' . $poid);
@@ -381,5 +381,59 @@ class PurchaseOrderController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
         }
+    }
+
+    public function approvePOProcess(Request $request,  $id) // sửa 01 PurchaseOrder
+    {
+        $poProcess = ProcessPurchase::find($id);
+        $poProcess->approve    =  $request->input('approveEdit');
+        $res = $poProcess->update();
+        if ($res) {
+            session()->flash('success', 'Thao tác thành công');
+            return redirect('po-process/' . $poProcess->POID);
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
+        }
+    }
+    public function intoWarehouse(Request $request,  $id) // sửa 01 PurchaseOrder
+    {
+
+        $purchaseOrder = ProcessPurchase::find($id);
+        $purchaseOrder->phaseID    =  $request->input('phaseIDEdit');
+        $purchaseOrder->purchaseOrderCode    = $request->input('purchaseOrderCodeEdit');
+        $purchaseOrder->purchaseOrderDate      = $request->input('purchaseOrderDateEdit');
+        $purchaseOrder->orderCode    = $request->input('orderCodeEdit');
+        $purchaseOrder->validityDate = $request->input('validityDateEdit');
+        $purchaseOrder->createdOnUTC = now();
+        $purchaseOrder->partnerID    = $request->input('partnerIDEdit');
+        $purchaseOrder->latestUpdated = now();
+
+        $res = $purchaseOrder->update();
+        if ($res) {
+            session()->flash('success', 'Thao tác thành công');
+            return redirect('/purchase-orders');
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
+        }
+    }
+    public function printProcessReturn($id)
+    {
+        $getPurchaseOrderToProcess = DB::select("  SELECT   po.*, p.name as partner_name,
+                                                            p.phone as partner_phone,
+                                                            p.address as partner_address
+                                                    FROM purchaseOrder po
+                                                    LEFT JOIN partner p ON p.id = po.partnerID
+                                                    WHERE po.id =  $id");
+        $getProcessPurchase = DB::select("  SELECT pp.*,product.name as product_name, product.code as product_code, product.unit as product_unit
+                                            FROM `processPurchase` pp
+                                            LEFT JOIN product on product.id = pp.materialID
+                                            WHERE pp.POID =  $id and pp.approve = 3");
+        return view(
+            'layouts.Fpdf.pdf-return',
+            [
+                'getPurchaseOrderToProcess' => $getPurchaseOrderToProcess,
+                'getProcessPurchase' => $getProcessPurchase
+            ]
+        );
     }
 }
