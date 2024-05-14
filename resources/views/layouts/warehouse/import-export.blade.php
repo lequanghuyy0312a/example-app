@@ -55,10 +55,10 @@
                                     {{__('msg.num')}}
                                 </th>
                                 <th style="width: 10%">
-                                    {{__('msg.belongPhase')}}
+                                    {{__('msg.productCode')}}
                                 </th>
                                 <th style="width: 10%">
-                                    {{__('msg.originalProductCode')}}
+                                    {{__('msg.originalProductName')}}
                                 </th>
                                 <th style="width: 10%">
                                     {{__('msg.quantity')}}
@@ -81,18 +81,19 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>\
+                        <tbody>
                             <?php $num = 0;  ?>
                             @foreach($getStocks as $stock)
                             <tr>
-                                <td class="text-center "> {{ $stock->product_code }} </td>
-                                <td class="text-center "> {{ $stock->product_name }} </td>
-                                <td class="text-center "> {{ $stock->quantity }} </td>
-                                <td class="text-center "> {{ $stock->PONo }} </td>
-                                <td class="text-center "> {{ $stock->partner_name }} </td>
-                                <td class="text-center "> {{ $stock->PONo }} </td>
-                                <td class="text-center "> {{ $stock->createdBy }} </td>
-                                <td class="text-center "> {{ $stock->createdOnUTC }} </td>
+                                <td class="text-center "> {{ ++$num }} </td>
+                                <td class="text-center gmail"> {{ $stock->product_code }} </td>
+                                <td class="text-center address"> {{ $stock->product_name }} </td>
+                                <td class="text-center gmail"> {{ $stock->quantity }} </td>
+                                <td class="text-center gmail"> {{ $stock->PONo }} </td>
+                                <td class="text-center address"> {{ $stock->partner_name }} </td>
+                                <td class="text-center gmail"> {{ $stock->PONo }} </td>
+                                <td class="text-center gmail"> {{ $stock->createdBy }} </td>
+                                <td class="text-center address"> format {{ $stock->createdOnUTC }} </td>
                             </tr>
                             @endforeach
                         </tbody>

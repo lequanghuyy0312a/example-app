@@ -228,7 +228,7 @@
                                                     <?php
                                                     if ($process->approve == 1) {
                                                         $tempTotalSuccess += $process->quantity;
-                                                    } elseif ($process->approve == 0)
+                                                    } elseif ($process->approve == 0){
                                                         $tempTotalProcess += $process->quantity;
                                                     }
                                                     ?>
