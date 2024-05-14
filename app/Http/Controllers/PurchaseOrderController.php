@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Process;
 use App\Models\ProcessPurchase;
 use App\Models\PurchaseOrder;
+use App\Models\Stock;
 use App\Models\PurchaseOrderDetail;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -435,5 +436,41 @@ class PurchaseOrderController extends Controller
                 'getProcessPurchase' => $getProcessPurchase
             ]
         );
+    }
+
+    public function returnedPOProcess($id) // sửa 01 PurchaseOrder
+    {
+        $poProcess = ProcessPurchase::find($id);
+        $poProcess->approve    =  4;
+        $res = $poProcess->update();
+        if ($res) {
+            session()->flash('success', 'Thao tác thành công');
+            return redirect('po-process/' . $poProcess->POID);
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
+        }
+    }
+
+    public function importToWarehouse($id) // sửa 01 Group
+    {
+        // id	productID	quantity	POID	createdOnUTC	note	type	createdBy
+        $poProcess = ProcessPurchase::find($id);
+
+        $importStock = new Stock();
+        $importStock->productID = $poProcess->materialID;
+        $importStock->quantity = $poProcess->quantity;
+        $importStock->POID = $poProcess->POID;
+        $importStock->createdOnUTC = now();
+        $importStock->type = 1;
+        $importStock->createdBy = "Mr. Khoa";
+        $importStock->note = "Nhập hàng vào Kho từ PO process";
+
+        $res = $importStock->save();
+        if ($res) {
+            session()->flash('success', 'Thao tác thành công');
+            return redirect('import-export');
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Kiểm tra lại thao tác']);
+        }
     }
 }

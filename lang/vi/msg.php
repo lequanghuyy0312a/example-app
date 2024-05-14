@@ -205,6 +205,7 @@ return [
     'processPO' => 'Quản lý tiến trình PO',
     'approveProcess' => 'Phê duyệt tiến trình PO',
     'NGReturn' => 'NG - Trả hàng',
+    'NGReturned' => 'NG - Đã trả hàng',
     'NGInstruction' => 'NG - Xin chỉ thị',
     'NGForm' => 'Xử lý lô hàng NG',
     'RefurnStockForm' => 'Phiếu trả hàng không đạt',

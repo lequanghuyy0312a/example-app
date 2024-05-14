@@ -81,18 +81,20 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody>\
+                            <?php $num = 0;  ?>
+                            @foreach($getStocks as $stock)
                             <tr>
-                                <td class="text-center ">   1    </td>
-                                <td class="text-center ">   K13    </td>
-                                <td class="text-left ">   TPL00072   </td>
-                                <td class="text-right ">   100    </td>
-                                <td class="text-right ">   1    </td>
-                                <td class="text-center ">   pcs    </td>
-                                <td class="text-left ">   ĐẠI LÝ GAS THIÊN PHÚ    </td>
-                                <td class="text-right ">   2024-03-28 08:59    </td>
-
+                                <td class="text-center "> {{ $stock->product_code }} </td>
+                                <td class="text-center "> {{ $stock->product_name }} </td>
+                                <td class="text-center "> {{ $stock->quantity }} </td>
+                                <td class="text-center "> {{ $stock->PONo }} </td>
+                                <td class="text-center "> {{ $stock->partner_name }} </td>
+                                <td class="text-center "> {{ $stock->PONo }} </td>
+                                <td class="text-center "> {{ $stock->createdBy }} </td>
+                                <td class="text-center "> {{ $stock->createdOnUTC }} </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

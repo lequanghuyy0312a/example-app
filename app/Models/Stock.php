@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Partner extends Model
+class Stock extends Model
 {
     use HasFactory;
-    protected $table =  'partner';
-    protected $filltable = 'id,productID,quantity,POID,createdOnUT,note,type,createdBy';
+    protected $table =  'stock';
+    protected $filltable = 'id,productID,quantity,POID,createdOnUTC,note,type,createdBy';
 
     protected $primarykey = 'id';
 

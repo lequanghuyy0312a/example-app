@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProcessController;
 use App\Http\Controllers\PhaseController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PartnerController;
@@ -125,8 +126,6 @@ Route::group(
         Route::patch('/warehouse/{id}/edit-submit', [WarehouseController::class, 'editWarehouse'])->name('warehouse-edit-submit');      // post - edit 1 type
         Route::post('/warehouse-add-submit', [WarehouseController::class, 'addWarehouse'])->name('warehouse-add-submit');             // post - add 1 type
 
-        //import-export
-        Route::get('/import-export', [WarehouseController::class, 'getIportExportList'])->name('getIportExportList'); // getIportExportList
 
         // process
         Route::get('/processes', [ProcessController::class, 'getProcesses'])->name('getProcesses'); // getProcesses
@@ -202,6 +201,10 @@ Route::group(
         Route::patch('po-process-approve-edit-submit/{id}', [PurchaseOrderController::class, 'approvePOProcess'])->name('po-process-approve-edit-submit');
         Route::patch('po-process-into-warehouse-submit/{id}', [PurchaseOrderController::class, 'intoWarehouse'])->name('po-process-into-warehouse-submit');
         Route::get('/print-PO-process-return/{POID}', [PurchaseOrderController::class, 'printProcessReturn']);
+        Route::get('/po-process/{id}/returned', [PurchaseOrderController::class, 'returnedPOProcess']);
+        Route::get('/po-process/{id}/import-warehouse', [PurchaseOrderController::class, 'importToWarehouse']);
+        //import-export
+        Route::get('/import-export', [StockController::class, 'getStocks'])->name('getStocks'); // getIportExportList
 
 
     }

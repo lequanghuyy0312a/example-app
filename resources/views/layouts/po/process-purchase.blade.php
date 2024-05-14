@@ -37,9 +37,11 @@
                                         <th class=" p-1" style="width: 7%">{{__('msg.purchaseOrderSubTotal')}} </th>
                                         <th class=" p-1 " style="width: 10%">{{__('msg.purchaseOrderDeliveryDate')}} </th>
                                         <th class=" p-1" style="width: 10%">{{__('msg.purchaseOrderNote')}}</th>
-                                        <th class=" p-1" style="width: 1%"> <a class="btn btn-link btn-sm p-0 m-0 px-1" data-toggle="modal" data-target="#NGForm{{$savePOID}}">
+                                        <th class=" p-1" style="width: 1%">
+                                            <a class="btn btn-link btn-sm p-0 m-0 px-1" href="/print-PO-process-return/{{$savePOID}}" rel="noopener" target="_blank">
                                                 <i class="fa-solid fa-truck-ramp-box p-1 rounded-circle text-light bg-danger"></i>
-                                            </a></th>
+                                            </a>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody style="font-size:14px">
@@ -105,33 +107,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal fade" id="NGForm{{$savePOID}}" tabindex="0" role="dialog" aria-hidden="true" style="z-index:1050; display:none">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-warning p-0 m-0 pt-2 pl-3">
-                                                    <h3 class="card-title">{{__('msg.NGForm')}}</h3>
-                                                    <button type="button" class="close" data-dismiss="modal" area-label="Close">
-                                                        <span aria-hidden="true"><i class="fa fa-close"></i> </span>
-                                                    </button>
-                                                </div>
-                                                <form action="{{route('po-process-approve-edit-submit', $savePOID)}}" method="post">
-                                                    @method("PATCH")
-                                                    @csrf
-                                                    <div class="modal-body pb-0">
-                                                        <div>
-                                                            <h3 class="uppercase text-center">{{__('msg.RefurnStockForm')}}</h3>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-right">Ngày</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-right card-footer p-1">
-                                                        <button type="submit" class="btn btn-primary">{{__('msg.save')}}</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <tr>
                                         <td colspan="12" class="p-0" style="border-bottom: solid 1px;">
@@ -140,7 +115,7 @@
                                                     <?php $num = 0;
                                                     $tempTotalSuccess = 0;
                                                     $tempTotalProcess = 0;
-                                                    $hasData = false; ?> <!-- Biến cờ -->
+                                                    $hasData = false; ?>
                                                     @foreach($getProcessPurchase as $process)
                                                     @if($process->materialID == $detail->productID)
                                                     <?php $hasData = true; ?> <!-- Đặt biến cờ thành true nếu có dữ liệu -->
@@ -152,7 +127,8 @@
                                                             {!! $process->approve == 0 ? '<b class="text-orange">' . __('msg.checking') . '</b>' :
                                                             ($process->approve == 3 ? '<s class="text-secondary">' . __('msg.NGReturn') . '</s>' :
                                                             ($process->approve == 1 ? '<b class="text-success">OK</b>' :
-                                                            ($process->approve == 2 ? '<b class="text-danger">'.__('msg.NGInstruction').'</b>' : '<b class="text-dark">undefined</b>')))!!}
+                                                            ($process->approve == 4 ? '<s class="text-secondary">' . __('msg.NGReturned') . '</s>' :
+                                                            ($process->approve == 2 ? '<b class="text-danger">'.__('msg.NGInstruction').'</b>' : '<b class="text-dark">undefined</b>'))))!!}
                                                         </td>
                                                         <td class="text-right p-1 email">
                                                             {!! $process->approve == 3 ? '<s>' . $process->quantity . '</s>' : $process->quantity !!}
@@ -166,17 +142,16 @@
                                                                     <i class="fa-solid fa-clipboard-list text-orange"></i>
                                                                 </a>
                                                                 @elseif($process->approve == 1)
-                                                                <a class="btn btn-link btn-sm p-0 m-0 px-1" data-toggle="modal" data-target="#InWarehouse{{$process->id}}">
+                                                                <a class="btn btn-link btn-sm p-0 m-0 px-1" href="/po-process/{{$process->id}}/import-warehouse" onclick="return confirm('Are you sure import to warehouse ?')">
                                                                     <i class="fa-solid fa-cubes-stacked  text-success"></i>
                                                                 </a>
                                                                 @elseif($process->approve == 2)
                                                                 <a class="btn btn-link btn-sm p-0 m-0 px-1" data-toggle="modal" data-target="#NGForm{{$process->id}}">
                                                                     <i class="fa-solid fa-triangle-exclamation  text-danger"></i>
                                                                 </a>
-                                                                @else
-                                                                <a href="/print-PO-process-return/{{$savePOID}}" rel="noopener" target="_blank" class="btn btn-link btn-sm p-0 m-0 px-1">
-
-                                                                    <i class="fa-solid fa-print text-secondary"></i>
+                                                                @elseif($process->approve == 3)
+                                                                <a class="btn btn-link btn-sm p-0 m-0 px-1" href="/po-process/{{$process->id}}/returned" onclick="return confirm('Are you sure returned ?')">
+                                                                    <i class=" text-secondary  fa-solid fa-stamp"></i>
                                                                 </a>
                                                                 @endif
                                                                 <a class="btn btn-link btn-sm p-0 m-0 px-1" href="/po-process/{{$process->id}}/delete" onclick="return confirm('Are you sure you want to delete ?')">
@@ -240,7 +215,6 @@
                                                                                 <input type="radio" name="approveEdit" value="3" id="radioSuccess2">
                                                                                 <label for="radioSuccess2" class="mb-0 text-danger">{{__('msg.NGReturn')}}</label>
                                                                             </div>
-
                                                                         </div>
                                                                     </div>
                                                                     <div class="text-right card-footer p-1">
@@ -254,13 +228,12 @@
                                                     <?php
                                                     if ($process->approve == 1) {
                                                         $tempTotalSuccess += $process->quantity;
-                                                    } elseif ($process->approve == 0) {
+                                                    } elseif ($process->approve == 0)
                                                         $tempTotalProcess += $process->quantity;
                                                     }
                                                     ?>
                                                     @endif
                                                     @endforeach
-
 
                                                     @if($hasData) <!-- Kiểm tra biến cờ, nếu có dữ liệu thỏa mãn thì hiển thị thead -->
                                                     <thead>

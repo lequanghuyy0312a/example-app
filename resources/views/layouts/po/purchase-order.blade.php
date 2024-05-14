@@ -435,9 +435,7 @@
                         </table>
                         <div class="row ml-1">
                             <u><b>{{__('msg.note')}} </b></u>: <a id="showNote"></a>
-
                         </div>
-
                     </div>
                 </div>
                 <div class="text-right card-footer">
